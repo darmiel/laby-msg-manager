@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.labymod.api.LabyModAddon;
 
-public class ConfigController<T> {
+public class ConfigController<T> extends ListenerController<T> {
 
   private static final Gson gson = new Gson();
 
@@ -44,6 +44,7 @@ public class ConfigController<T> {
       @Nonnull final Class<T> clazz,
       @Nullable T obj)
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    super();
 
     this.addon = addon;
     this.clazz = clazz;
@@ -145,6 +146,17 @@ public class ConfigController<T> {
     } catch (IllegalAccessException | SettingParseException | NoSuchFieldException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Alias for {@link ListenerController#registerListeners(Object...)} for method chaining
+   *
+   * @param obj Instances
+   * @return this
+   */
+  public ConfigController<T> registerAll(@Nonnull final Object... obj) {
+    this.registerListeners(obj);
+    return this;
   }
 
 }

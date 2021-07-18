@@ -15,23 +15,22 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ListenerController<T> {
+public class ListenerController<T> implements ListenerControllerProvider {
 
-  ///
-
-  private final ConfigController<T> cfgCtl;
   private final Map<String, List<ListenerMethod>> listeners;
 
   ///
 
-  public ListenerController(final ConfigController<T> cfgCtl) {
+  public ListenerController() {
     this.listeners = Maps.newConcurrentMap();
-
-    this.cfgCtl = cfgCtl;
   }
 
-  public void alert(String var, final Object oldValue, final Object newValue)
-      throws InvocationTargetException, IllegalAccessException {
+  @Override
+  public void alert(
+      @Nonnull String var,
+      @Nullable final Object oldValue,
+      @Nullable final Object newValue
+  ) throws InvocationTargetException, IllegalAccessException {
 
     var = var.toLowerCase();
 
@@ -63,6 +62,28 @@ public class ListenerController<T> {
 
   }
 
+  @Override
+  public void registerListeners(@Nonnull final Object ... obj) {
+    for (final Object o : obj) {
+      for (final Method method : o.getClass().getDeclaredMethods()) {
+        if (!method.isAnnotationPresent(ListenSettingsChange.class)) {
+          continue;
+        }
+
+        registerListener(
+            o,
+            method.getAnnotation(ListenSettingsChange.class),
+            method
+        );
+
+        System.out.println("msgman :: registered method " + method.getName() +
+            " for class " + o.getClass().getSimpleName());
+      }
+    }
+  }
+
+  ///
+
   private void registerListener(
       @Nullable final Object instance,
       @Nonnull final ListenSettingsChange lann,
@@ -83,25 +104,6 @@ public class ListenerController<T> {
           w2 = o2.lann.priority().weight;
       return Integer.compare(w1, w2);
     });
-  }
-
-  public void registerListener(@Nonnull final Object obj) {
-    for (final Method method : obj.getClass().getDeclaredMethods()) {
-      if (!method.isAnnotationPresent(ListenSettingsChange.class)) {
-        continue;
-      }
-
-      registerListener(
-          obj,
-          method.getAnnotation(ListenSettingsChange.class),
-          method
-      );
-
-      // TODO: Remove me
-      System.out.println(
-          "msgman :: registered method " + method.getName() +
-              " for class " + obj.getClass().getSimpleName());
-    }
   }
 
 }
