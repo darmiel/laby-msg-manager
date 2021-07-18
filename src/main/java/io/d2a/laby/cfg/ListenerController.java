@@ -2,10 +2,10 @@ package io.d2a.laby.cfg;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import io.d2a.laby.cfg.annotations.listener.ListenSettingsChange;
-import io.d2a.laby.cfg.annotations.listener.NewVal;
-import io.d2a.laby.cfg.annotations.listener.OldVal;
-import io.d2a.laby.cfg.annotations.listener.VarName;
+import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
+import io.d2a.laby.cfg.annotations.listener.New;
+import io.d2a.laby.cfg.annotations.listener.Old;
+import io.d2a.laby.cfg.annotations.listener.Var;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -44,11 +44,11 @@ public class ListenerController<T> implements ListenerControllerProvider {
 
       // Add parameters
       for (final Parameter parameter : method.getParameters()) {
-        if (parameter.isAnnotationPresent(NewVal.class)) {
+        if (parameter.isAnnotationPresent(New.class)) {
           parameters.add(newValue);
-        } else if (parameter.isAnnotationPresent(OldVal.class)) {
+        } else if (parameter.isAnnotationPresent(Old.class)) {
           parameters.add(oldValue);
-        } else if (parameter.isAnnotationPresent(VarName.class)) {
+        } else if (parameter.isAnnotationPresent(Var.class)) {
           parameters.add(var);
         } else {
           parameters.add(null);
@@ -66,13 +66,13 @@ public class ListenerController<T> implements ListenerControllerProvider {
   public void registerListeners(@Nonnull final Object ... obj) {
     for (final Object o : obj) {
       for (final Method method : o.getClass().getDeclaredMethods()) {
-        if (!method.isAnnotationPresent(ListenSettingsChange.class)) {
+        if (!method.isAnnotationPresent(SubscribeSettings.class)) {
           continue;
         }
 
         registerListener(
             o,
-            method.getAnnotation(ListenSettingsChange.class),
+            method.getAnnotation(SubscribeSettings.class),
             method
         );
 
@@ -86,7 +86,7 @@ public class ListenerController<T> implements ListenerControllerProvider {
 
   private void registerListener(
       @Nullable final Object instance,
-      @Nonnull final ListenSettingsChange lann,
+      @Nonnull final SubscribeSettings lann,
       @Nonnull final Method method) {
 
     String var = lann.value().toLowerCase();

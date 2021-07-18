@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ListenSettingsChange {
+public @interface SubscribeSettings {
 
   public enum Order {
     EARLY(0),

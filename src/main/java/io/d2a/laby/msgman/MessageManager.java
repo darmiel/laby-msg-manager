@@ -1,11 +1,11 @@
 package io.d2a.laby.msgman;
 
 import io.d2a.laby.cfg.ConfigController;
-import io.d2a.laby.cfg.annotations.listener.ListenSettingsChange;
-import io.d2a.laby.cfg.annotations.listener.ListenSettingsChange.Order;
-import io.d2a.laby.cfg.annotations.listener.NewVal;
-import io.d2a.laby.cfg.annotations.listener.OldVal;
-import io.d2a.laby.cfg.annotations.listener.VarName;
+import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
+import io.d2a.laby.cfg.annotations.listener.SubscribeSettings.Order;
+import io.d2a.laby.cfg.annotations.listener.New;
+import io.d2a.laby.cfg.annotations.listener.Old;
+import io.d2a.laby.cfg.annotations.listener.Var;
 import io.d2a.laby.msgman.cfg.SettingsConfig;
 
 public class MessageManager extends AddonAdapter {
@@ -31,13 +31,13 @@ public class MessageManager extends AddonAdapter {
 
   // EXAMPLES:
 
-  @ListenSettingsChange(value = "enabled", priority = Order.NORMAL)
-  public void onEnableChange(@OldVal boolean o, @NewVal boolean n, @VarName String var) {
+  @SubscribeSettings(value = "enabled", priority = Order.NORMAL)
+  public void onEnableChange(@Old boolean o, @New boolean n, @Var String var) {
     System.out.println("msgman :: onEnableChange (o = " + o + ", n = " + n + ", var = " + var + ")");
   }
 
-  @ListenSettingsChange("name")
-  public void onNameChange(@NewVal String n) {
+  @SubscribeSettings("name")
+  public void onNameChange(@New String n) {
     System.out.println("msgman :: onNameChange [name changed to:] (n = " + n + ")");
   }
 
