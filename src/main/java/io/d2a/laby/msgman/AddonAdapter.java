@@ -6,7 +6,7 @@ import net.labymod.settings.elements.SettingsElement;
 
 public class AddonAdapter extends LabyModAddon {
 
-  protected void catchException (final Exception exception) {
+  protected void catchException(final Exception exception) {
     System.out.println("msgman :: WARNING: Caught exception:");
     System.out.println(" --- ");
     exception.printStackTrace();
@@ -22,7 +22,8 @@ public class AddonAdapter extends LabyModAddon {
     }
   }
 
-  public void onEnableUnsafe() throws Exception {}
+  public void onEnableUnsafe() throws Exception {
+  }
 
   @Override
   public void loadConfig() {

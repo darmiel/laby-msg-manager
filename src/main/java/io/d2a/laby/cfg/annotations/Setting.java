@@ -9,8 +9,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Setting {
 
-  String value();
+  String value() default "";
+
   String icon() default "";
+
   Sort[] sort() default {};
 
 }

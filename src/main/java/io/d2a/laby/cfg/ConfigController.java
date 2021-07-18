@@ -11,11 +11,12 @@ import io.d2a.laby.cfg.exceptions.NoDefaultSettingValueException;
 import io.d2a.laby.cfg.exceptions.SettingParseException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.labymod.api.LabyModAddon;
 
-public class Reader<T> {
+public class ConfigController<T> {
 
   private static final Gson gson = new Gson();
 
@@ -25,8 +26,21 @@ public class Reader<T> {
 
   ///
 
-  public Reader(
-      @Nonnull LabyModAddon addon,
+  public static <T> Optional<ConfigController<T>> fromUnsafe(
+      @Nonnull final LabyModAddon addon,
+      @Nonnull final Class<T> configClass) {
+
+    try {
+      return Optional.of(new ConfigController<>(addon, configClass, null));
+    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+      e.printStackTrace();
+    }
+
+    return Optional.empty();
+  }
+
+  public ConfigController(
+      @Nonnull final LabyModAddon addon,
       @Nonnull final Class<T> clazz,
       @Nullable T obj)
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -42,9 +56,26 @@ public class Reader<T> {
     }
   }
 
+  /**
+   * Returns a class of type {@link T} with the read values from the config, if <code>parse()</code>
+   * was called previously
+   *
+   * @return Config Class
+   */
+  public T getObj() {
+    return obj;
+  }
+
+  /**
+   * Platz für Notizen
+   *
+   * @throws IllegalAccessException a
+   * @throws SettingParseException  a
+   * @throws NoSuchFieldException   a
+   */
   public void parse()
       throws IllegalAccessException, SettingParseException, NoSuchFieldException {
-    
+
     final JsonObject json = this.addon.getConfig();
     boolean update = false;
 
@@ -55,12 +86,18 @@ public class Reader<T> {
 
       final Setting setting = field.getAnnotation(Setting.class);
 
-      final String jsonKey = Lang.toPascalCase(setting.value());
+      String jsonKey;
+      if (setting.value().trim().isEmpty()) {
+        jsonKey = Lang.toPascalCase(field.getName());
+      } else {
+        jsonKey = Lang.toPascalCase(setting.value());
+      }
       if (jsonKey.trim().isEmpty()) {
         throw new EmptySettingPathException(field);
       }
 
-      // Update
+      // Update Config
+      // (adds default values)
       if (!json.has(jsonKey)) {
         if (!field.isAnnotationPresent(Default.class)) {
           throw new NoDefaultSettingValueException(setting, field);
@@ -99,6 +136,14 @@ public class Reader<T> {
 
     if (update) {
       this.addon.saveConfig();
+    }
+  }
+
+  public void parseUnsafe() {
+    try {
+      this.parse();
+    } catch (IllegalAccessException | SettingParseException | NoSuchFieldException e) {
+      e.printStackTrace();
     }
   }
 

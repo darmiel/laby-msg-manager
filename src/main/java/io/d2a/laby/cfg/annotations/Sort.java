@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 public @interface Sort {
 
   String value() default "";
+
   int pos() default 0;
 
 }

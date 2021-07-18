@@ -4,10 +4,14 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
-public @interface SubscribeSetting {
+public @interface ListenSettingsChange {
 
   String value();
+
   boolean rold() default true;
+
   boolean rnew() default true;
+
+  boolean startup() default false;
 
 }
