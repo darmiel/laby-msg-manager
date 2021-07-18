@@ -1,6 +1,10 @@
 {
-  "name": "Example Addon",
+  "name": "msgman",
   "uuid": "%uuid%",
-  "mainClass": "com.example.addon.ExampleAddon",
-  "transformerClass": "com.example.addon.ExampleAddonTransformer"
+  "mainClass": "io.d2a.laby.msgman.MessageManager",
+  "author": "d2aniel <hi@d2a.io>",
+  "description": "msg -> hagebuddne",
+  "category": 2,
+  "version": 1.0,
+  "icon": "https://i.imgur.com/xhRtpI3.png"
 }
