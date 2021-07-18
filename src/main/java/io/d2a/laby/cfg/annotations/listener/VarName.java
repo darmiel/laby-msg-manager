@@ -1,18 +1,12 @@
-package io.d2a.laby.cfg.annotations;
+package io.d2a.laby.cfg.annotations.listener;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Setting {
-
-  String value() default "";
-
-  String icon() default "";
-
-  Sort[] sort() default {};
+public @interface VarName {
 
 }
