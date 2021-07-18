@@ -6,12 +6,21 @@ import net.labymod.settings.elements.SettingsElement;
 
 public class AddonAdapter extends LabyModAddon {
 
-  protected void catchException(final Exception exception) {
-    System.out.println("msgman :: WARNING: Caught exception:");
-    System.out.println(" --- ");
-    exception.printStackTrace();
-    System.out.println(" --- ");
+  ///
+
+  public void onEnableUnsafe() throws Exception {
+
   }
+
+  public void loadConfigUnsafe() throws Exception {
+
+  }
+
+  public void fillSettingsUnsafe(final List<SettingsElement> list) throws Exception {
+
+  }
+
+  ///
 
   @Override
   public void onEnable() {
@@ -22,8 +31,7 @@ public class AddonAdapter extends LabyModAddon {
     }
   }
 
-  public void onEnableUnsafe() throws Exception {
-  }
+
 
   @Override
   public void loadConfig() {
@@ -34,13 +42,22 @@ public class AddonAdapter extends LabyModAddon {
     }
   }
 
-  public void loadConfigUnsafe() throws Exception {
-
-  }
-
   @Override
   protected void fillSettings(final List<SettingsElement> list) {
+    try {
+      this.fillSettingsUnsafe(list);
+    } catch (Exception exception) {
+      catchException(exception);
+    }
+  }
 
+  ///
+
+  protected void catchException(final Exception exception) {
+    System.out.println("msgman :: WARNING: Caught exception:");
+    System.out.println(" --- ");
+    exception.printStackTrace();
+    System.out.println(" --- ");
   }
 
 }

@@ -7,10 +7,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Sort {
+public @interface Header {
 
   String value() default "";
-
-  int pos() default 0;
 
 }

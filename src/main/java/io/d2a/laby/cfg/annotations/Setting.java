@@ -13,6 +13,4 @@ public @interface Setting {
 
   String icon() default "";
 
-  Sort[] sort() default {};
-
 }

@@ -3,7 +3,7 @@ package io.d2a.laby.cfg;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public interface ListenerControllerProvider {
+public interface ListenerProvider {
 
   void alert(
       @Nonnull String var,

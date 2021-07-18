@@ -1,7 +1,9 @@
-package io.d2a.laby.cfg;
+package io.d2a.laby.cfg.ctl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.d2a.laby.cfg.ListenerMethod;
+import io.d2a.laby.cfg.ListenerProvider;
 import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
 import io.d2a.laby.cfg.annotations.listener.New;
 import io.d2a.laby.cfg.annotations.listener.Old;
@@ -15,7 +17,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ListenerController<T> implements ListenerControllerProvider {
+public class ListenerController implements ListenerProvider {
 
   private final Map<String, List<ListenerMethod>> listeners;
 

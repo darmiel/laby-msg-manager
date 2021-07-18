@@ -13,4 +13,8 @@ public class SettingsConfig {
   @Setting("name")
   public String name = "Daniel";
 
+  @Default
+  @Setting
+  public int schwul = 0;
+
 }
