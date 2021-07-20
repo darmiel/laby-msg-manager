@@ -1,5 +1,11 @@
 package io.d2a.laby.cfg;
 
+import io.d2a.laby.cfg.annotations.Header;
+import io.d2a.laby.cfg.annotations.Settings;
+import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
+import javax.annotation.Nonnull;
+import net.labymod.utils.ModColor;
+
 public class Lang {
 
   /**
@@ -46,6 +52,39 @@ public class Lang {
    */
   private static boolean isSpace(final char c) {
     return c == '_' || c == ' ' || c == '-';
+  }
+
+
+  /**
+   * <code>&aTest</code> => <code>§aTest</code>
+   *
+   * @param settings Annotation
+   * @return Setting with formatted displayValue
+   */
+  public static String getFormattedName(@Nonnull final Settings settings) {
+    return ModColor.cl(settings.value());
+  }
+
+  public static String getFormattedName(@Nonnull final Header header) {
+    return ModColor.cl(header.value());
+  }
+
+  /**
+   * <code>&aTest</code> => <code>§aTest</code> => <code>Test</code>
+   *
+   * @param settings Annotation
+   * @return Setting with stripped displayValue (pascal case)
+   */
+  public static String getJsonKey(@Nonnull final Settings settings) {
+    return toPascalCase(ModColor.removeColor(getFormattedName(settings).trim()));
+  }
+
+  public static @Nonnull
+  String getListenerName(@Nonnull final Settings settings) {
+    if (!settings.listener().isEmpty()) {
+      return settings.listener();
+    }
+    return getJsonKey(settings).toLowerCase();
   }
 
 }

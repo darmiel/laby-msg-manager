@@ -6,13 +6,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import io.d2a.laby.cfg.JsonProvider;
 import io.d2a.laby.cfg.Lang;
-import io.d2a.laby.cfg.annotations.Default;
-import io.d2a.laby.cfg.annotations.Setting;
-import io.d2a.laby.cfg.exceptions.EmptySettingPathException;
-import io.d2a.laby.cfg.exceptions.NoDefaultSettingValueException;
-import io.d2a.laby.cfg.exceptions.SettingParseException;
+import io.d2a.laby.cfg.annotations.Settings;
+import io.d2a.laby.cfg.exceptions.EmptySettingsPathException;
+import io.d2a.laby.cfg.exceptions.NoDefaultSettingsValueException;
+import io.d2a.laby.cfg.exceptions.SettingsParseException;
 import java.lang.reflect.Field;
-import net.labymod.utils.ModColor;
 
 public class JsonController<T> implements JsonProvider<T> {
 
@@ -23,35 +21,37 @@ public class JsonController<T> implements JsonProvider<T> {
       final JsonObject json,
       final T obj,
       final Runnable saveConfigAction
-  ) throws SettingParseException, IllegalAccessException, NoSuchFieldException {
+  ) throws SettingsParseException, IllegalAccessException, NoSuchFieldException {
 
     for (final Field field : obj.getClass().getDeclaredFields()) {
-      if (!field.isAnnotationPresent(Setting.class)) {
+      if (!field.isAnnotationPresent(Settings.class)) {
         continue;
       }
 
-      final Setting setting = field.getAnnotation(Setting.class);
+      final Settings settings = field.getAnnotation(Settings.class);
 
       String jsonKey;
-      if (setting.value().trim().isEmpty()) {
+      if (settings.value().trim().isEmpty()) {
         jsonKey = Lang.toPascalCase(field.getName());
       } else {
-        jsonKey = Lang.toPascalCase(setting.value());
+        jsonKey = Lang.getJsonKey(settings);
       }
-      jsonKey = ModColor.removeColor(ModColor.cl(jsonKey)); // remove color
       if (jsonKey.trim().isEmpty()) {
-        throw new EmptySettingPathException(field);
+        throw new EmptySettingsPathException(field);
       }
 
       // Update Config
       // (adds default values)
       if (!json.has(jsonKey)) {
-        if (!field.isAnnotationPresent(Default.class)) {
-          throw new NoDefaultSettingValueException(setting, field);
+        // Get default value
+        final Object defValue = field.get(obj);
+
+        // no default value?
+        // unacceptable...
+        if (defValue == null) {
+          throw new NoDefaultSettingsValueException(settings, field);
         }
 
-        // Get value
-        final Object defValue = field.get(obj);
         final JsonElement defJsonValue = gson.toJsonTree(defValue);
         json.add(jsonKey, defJsonValue);
 

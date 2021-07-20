@@ -1,7 +1,7 @@
 package io.d2a.laby.cfg;
 
 import com.google.gson.JsonObject;
-import io.d2a.laby.cfg.exceptions.SettingParseException;
+import io.d2a.laby.cfg.exceptions.SettingsParseException;
 
 public interface JsonProvider<T> {
 
@@ -9,7 +9,7 @@ public interface JsonProvider<T> {
       final JsonObject json,
       final T obj,
       final Runnable saveConfigAction
-  ) throws SettingParseException, IllegalAccessException, NoSuchFieldException;
+  ) throws SettingsParseException, IllegalAccessException, NoSuchFieldException;
 
 
 

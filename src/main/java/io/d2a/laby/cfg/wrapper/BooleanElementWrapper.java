@@ -1,10 +1,10 @@
 package io.d2a.laby.cfg.wrapper;
 
-import io.d2a.laby.cfg.annotations.Setting;
+import io.d2a.laby.cfg.annotations.Settings;
 import net.labymod.settings.elements.BooleanElement;
 import net.labymod.utils.Consumer;
 
-public class BooleanElementWrapper implements SettingElementWrapper<BooleanElement, Boolean> {
+public class BooleanElementWrapper implements SettingsElementWrapper<BooleanElement, Boolean> {
 
   @Override
   public Class<?>[] accepted() {
@@ -16,13 +16,13 @@ public class BooleanElementWrapper implements SettingElementWrapper<BooleanEleme
 
   @Override
   public BooleanElement wrap(
-      final Setting setting,
+      final Settings settings,
       final Object defaultValue,
       final Consumer<Boolean> changed
   ) {
     return new BooleanElement(
-        SettingElementWrapper.formatName(setting),
-        SettingElementWrapper.getIconData(setting),
+        SettingsElementWrapper.formatName(settings),
+        SettingsElementWrapper.getIconData(settings),
         changed,
         (boolean) defaultValue
     );

@@ -1,24 +1,23 @@
 package io.d2a.laby.cfg.wrapper;
 
-import io.d2a.laby.cfg.annotations.Setting;
+import io.d2a.laby.cfg.annotations.Settings;
 import javax.annotation.Nullable;
 import net.labymod.settings.elements.ControlElement.IconData;
-import net.labymod.settings.elements.SettingsElement;
 import net.labymod.utils.Consumer;
 import net.labymod.utils.Material;
 import net.labymod.utils.ModColor;
 
-public interface SettingElementWrapper<T, V> {
+public interface SettingsElementWrapper<T, V> {
 
   Class<?>[] accepted(); // int.class, Integer.class, double.class, Double.class
 
-  T wrap(final Setting setting, final Object defaultValue, final Consumer<V> changed);
+  T wrap(final Settings settings, final Object defaultValue, final Consumer<V> changed);
 
   ///
 
   @Nullable
-  static IconData getIconData(final Setting setting) {
-    final String icon = setting.icon().trim();
+  static IconData getIconData(final Settings settings) {
+    final String icon = settings.icon().trim();
     for (final Material mat : Material.values()) {
       if (mat.name().equalsIgnoreCase(icon)) {
         return new IconData(mat);
@@ -27,8 +26,8 @@ public interface SettingElementWrapper<T, V> {
     return null;
   }
 
-  static String formatName(final Setting setting) {
-    return ModColor.cl(setting.value());
+  static String formatName(final Settings settings) {
+    return ModColor.cl(settings.value());
   }
 
 }

@@ -21,9 +21,8 @@ public @interface SubscribeSettings {
     }
   }
 
-  String value();
+  String[] value();
 
   Order priority() default Order.NORMAL;
-
 
 }

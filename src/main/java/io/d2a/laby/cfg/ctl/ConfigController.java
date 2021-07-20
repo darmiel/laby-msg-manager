@@ -1,17 +1,11 @@
 package io.d2a.laby.cfg.ctl;
 
-import com.google.gson.JsonObject;
-import io.d2a.laby.cfg.JsonProvider;
-import io.d2a.laby.cfg.ListenerProvider;
 import io.d2a.laby.cfg.SettingsPageProvider;
-import io.d2a.laby.cfg.exceptions.SettingParseException;
+import io.d2a.laby.cfg.exceptions.SettingsParseException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.labymod.api.LabyModAddon;
-import net.labymod.settings.elements.SettingsElement;
 
 public class ConfigController<T> {
 
@@ -58,7 +52,8 @@ public class ConfigController<T> {
 
   ///
 
-  public void readConfig() throws SettingParseException, IllegalAccessException, NoSuchFieldException {
+  public void readConfig()
+      throws SettingsParseException, IllegalAccessException, NoSuchFieldException {
     this.jsonCtl.readConfig(
         this.addon.getConfig(),
         this.obj,

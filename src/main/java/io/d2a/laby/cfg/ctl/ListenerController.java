@@ -4,9 +4,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.d2a.laby.cfg.ListenerMethod;
 import io.d2a.laby.cfg.ListenerProvider;
-import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
 import io.d2a.laby.cfg.annotations.listener.New;
 import io.d2a.laby.cfg.annotations.listener.Old;
+import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
 import io.d2a.laby.cfg.annotations.listener.Var;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -65,21 +65,21 @@ public class ListenerController implements ListenerProvider {
   }
 
   @Override
-  public void registerListeners(@Nonnull final Object ... obj) {
-    for (final Object o : obj) {
-      for (final Method method : o.getClass().getDeclaredMethods()) {
+  public void registerListeners(@Nonnull final Object... objects) {
+    for (final Object obj : objects) {
+      for (final Method method : obj.getClass().getDeclaredMethods()) {
         if (!method.isAnnotationPresent(SubscribeSettings.class)) {
           continue;
         }
 
         registerListener(
-            o,
+            obj,
             method.getAnnotation(SubscribeSettings.class),
             method
         );
 
         System.out.println("msgman :: registered method " + method.getName() +
-            " for class " + o.getClass().getSimpleName());
+            " for class " + obj.getClass().getSimpleName());
       }
     }
   }
@@ -88,24 +88,24 @@ public class ListenerController implements ListenerProvider {
 
   private void registerListener(
       @Nullable final Object instance,
-      @Nonnull final SubscribeSettings lann,
+      @Nonnull final SubscribeSettings subscriber,
       @Nonnull final Method method) {
 
-    String var = lann.value().toLowerCase();
+    for (String var : subscriber.value()) {
+      var = var.toLowerCase();
 
-    if (!this.listeners.containsKey(var)) {
-      this.listeners.put(var, Lists.newArrayList());
+      if (!this.listeners.containsKey(var)) {
+        this.listeners.put(var, Lists.newArrayList());
+      }
+      final List<ListenerMethod> m = this.listeners.get(var);
+
+      m.add(new ListenerMethod(instance, subscriber, method));
+      m.sort((o1, o2) -> { // sort by order-weight
+        int w1 = o1.lann.priority().weight,
+            w2 = o2.lann.priority().weight;
+        return Integer.compare(w1, w2);
+      });
     }
-
-    final List<ListenerMethod> m = this.listeners.get(var);
-    m.add(new ListenerMethod(instance, lann, method));
-
-    // sort by order-weight
-    m.sort((o1, o2) -> {
-      int w1 = o1.lann.priority().weight,
-          w2 = o2.lann.priority().weight;
-      return Integer.compare(w1, w2);
-    });
   }
 
 }

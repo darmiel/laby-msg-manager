@@ -1,24 +1,24 @@
 package io.d2a.laby.cfg.exceptions;
 
-import io.d2a.laby.cfg.annotations.Setting;
+import io.d2a.laby.cfg.annotations.Settings;
 import java.lang.reflect.Field;
 
-public class NoDefaultSettingValueException extends SettingParseException {
+public class NoDefaultSettingsValueException extends SettingsParseException {
 
-  private final Setting setting;
+  private final Settings settings;
   private final Field field;
 
-  public NoDefaultSettingValueException(final Setting setting, final Field field) {
+  public NoDefaultSettingsValueException(final Settings settings, final Field field) {
     super("Field " + field.getName() + " was annotated with @Setting, "
         + "but the provided config did not contain a value for this setting and no default value was found. "
         + "Annotate with @Default if you want to set the default value of the field to the config");
 
-    this.setting = setting;
+    this.settings = settings;
     this.field = field;
   }
 
-  public Setting getSetting() {
-    return setting;
+  public Settings getSetting() {
+    return settings;
   }
 
   public Field getField() {
