@@ -1,16 +1,23 @@
 package io.d2a.laby.msgman.cfg;
 
+import io.d2a.laby.cfg.Dummy;
+import io.d2a.laby.cfg.annotations.Header;
 import io.d2a.laby.cfg.annotations.Settings;
 
 public class SettingsConfig {
 
-  @Settings("enabled")
+  /// Default Settings
+  @Header("&aDefault Settings")
+  private final Dummy dummy1 = null;
+
+  @Settings(value = "&bEnable", listener = "enable")
   public boolean enabled = true;
 
-  @Settings("name")
-  public String name = "Daniel";
+  /// Other
+  @Header("&3Other")
+  private final Dummy dummy2 = null;
 
-  @Settings
-  public int schwul = 0;
+  @Settings("&6&lNAME!")
+  public String name = "Daniel";
 
 }

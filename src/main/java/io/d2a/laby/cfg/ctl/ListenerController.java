@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
@@ -21,10 +22,29 @@ public class ListenerController implements ListenerProvider {
 
   private final Map<String, List<ListenerMethod>> listeners;
 
+  private final Map<Class<?>, Object> defaultValues = new HashMap<Class<?>, Object>() {{
+    put(boolean.class, false);
+    put(int.class, 0);
+    put(long.class, 0L);
+    put(float.class, 0F);
+    put(double.class, 0D);
+    put(char.class, '!');
+    put(short.class, 0);
+  }};
+
   ///
 
   public ListenerController() {
     this.listeners = Maps.newConcurrentMap();
+  }
+
+  // TODO: PLEASE consider a new name for this function. I am too lazy right now.
+  private void a(final List<Object> parameters, final Parameter parameter, final Object obj) {
+    if (obj == null && this.defaultValues.containsKey(parameter.getType())) {
+      parameters.add(this.defaultValues.get(parameter.getType()));
+    } else {
+      parameters.add(obj);
+    }
   }
 
   @Override
@@ -47,9 +67,9 @@ public class ListenerController implements ListenerProvider {
       // Add parameters
       for (final Parameter parameter : method.getParameters()) {
         if (parameter.isAnnotationPresent(New.class)) {
-          parameters.add(newValue);
+          this.a(parameters, parameter, newValue);
         } else if (parameter.isAnnotationPresent(Old.class)) {
-          parameters.add(oldValue);
+          this.a(parameters, parameter, oldValue);
         } else if (parameter.isAnnotationPresent(Var.class)) {
           parameters.add(var);
         } else {

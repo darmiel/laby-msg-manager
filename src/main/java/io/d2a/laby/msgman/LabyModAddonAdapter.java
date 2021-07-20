@@ -4,7 +4,7 @@ import java.util.List;
 import net.labymod.api.LabyModAddon;
 import net.labymod.settings.elements.SettingsElement;
 
-public class AddonAdapter extends LabyModAddon {
+public class LabyModAddonAdapter extends LabyModAddon {
 
   ///
 

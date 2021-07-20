@@ -57,6 +57,7 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
       if (field.isAnnotationPresent(Header.class)) {
         final String header = Lang.getFormattedName(field.getAnnotation(Header.class));
         list.add(new HeaderElement(header));
+        System.out.println("  --> Header: " + header);
       }
       // Ignore Dummy
       if (field.getType().isAssignableFrom(Dummy.class)) {
@@ -85,6 +86,8 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
         throw new WrapException("field " + field.getName() +
             " could not be wrapped to SettingsElement");
       }
+
+      list.add(element);
     }
   }
 

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import io.d2a.laby.cfg.Dummy;
 import io.d2a.laby.cfg.JsonProvider;
 import io.d2a.laby.cfg.Lang;
 import io.d2a.laby.cfg.annotations.Settings;
@@ -24,10 +25,14 @@ public class JsonController<T> implements JsonProvider<T> {
   ) throws SettingsParseException, IllegalAccessException, NoSuchFieldException {
 
     for (final Field field : obj.getClass().getDeclaredFields()) {
-      if (!field.isAnnotationPresent(Settings.class)) {
+      // ignore dummies
+      if (field.getType() == Dummy.class) {
         continue;
       }
 
+      if (!field.isAnnotationPresent(Settings.class)) {
+        continue;
+      }
       final Settings settings = field.getAnnotation(Settings.class);
 
       String jsonKey;

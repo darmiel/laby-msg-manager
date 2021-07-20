@@ -5,6 +5,7 @@ import io.d2a.laby.cfg.exceptions.SettingsParseException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.labymod.api.LabyModAddon;
 
 public class ConfigController<T> {
@@ -20,12 +21,17 @@ public class ConfigController<T> {
 
   public ConfigController(
       final LabyModAddon addon,
-      final Class<T> clazz
+      final Class<T> clazz,
+      final T obj
   ) throws NoSuchMethodException, IllegalAccessException,
       InvocationTargetException, InstantiationException {
 
     this.addon = addon;
-    this.obj = clazz.getConstructor().newInstance(); // create new instance of config class
+    if (obj == null) {
+      this.obj = clazz.getConstructor().newInstance(); // create new instance of config class
+    } else {
+      this.obj = obj;
+    }
 
     this.lstCtl = new ListenerController();
     this.jsonCtl = new JsonController<>();
@@ -36,12 +42,14 @@ public class ConfigController<T> {
 
   public static <T> Optional<ConfigController<T>> fromUnsafe(
       @Nonnull final LabyModAddon addon,
-      @Nonnull final Class<T> configClass) {
+      @Nonnull final Class<T> configClass,
+      @Nullable final T obj) {
 
     try {
       return Optional.of(new ConfigController<T>(
           addon,
-          configClass
+          configClass,
+          obj
       ));
     } catch (Exception exception) {
       exception.printStackTrace();

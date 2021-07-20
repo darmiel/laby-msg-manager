@@ -62,11 +62,11 @@ public class Lang {
    * @return Setting with formatted displayValue
    */
   public static String getFormattedName(@Nonnull final Settings settings) {
-    return ModColor.cl(settings.value());
+    return ModColor.createColors(settings.value());
   }
 
   public static String getFormattedName(@Nonnull final Header header) {
-    return ModColor.cl(header.value());
+    return ModColor.createColors(header.value());
   }
 
   /**

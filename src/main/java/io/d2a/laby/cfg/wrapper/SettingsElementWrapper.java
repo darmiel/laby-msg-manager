@@ -27,7 +27,7 @@ public interface SettingsElementWrapper<T, V> {
   }
 
   static String formatName(final Settings settings) {
-    return ModColor.cl(settings.value());
+    return ModColor.createColors(settings.value());
   }
 
 }
