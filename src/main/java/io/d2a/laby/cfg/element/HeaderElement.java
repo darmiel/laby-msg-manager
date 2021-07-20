@@ -7,10 +7,9 @@ import net.labymod.utils.DrawUtils;
 
 public class HeaderElement extends SettingsElementAdapter {
 
+  private final DrawUtils draw;
   private int height;
   private int spaceTop;
-
-  private final DrawUtils draw;
 
   public HeaderElement(final String text, final int spaceTop, final int height) {
     super(text, null);

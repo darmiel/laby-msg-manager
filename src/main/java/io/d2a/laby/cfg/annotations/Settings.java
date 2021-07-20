@@ -1,6 +1,5 @@
 package io.d2a.laby.cfg.annotations;
 
-import io.d2a.laby.cfg.Dummy;
 import io.d2a.laby.cfg.wrapper.DummyWrapper;
 import io.d2a.laby.cfg.wrapper.SettingsElementWrapper;
 import java.lang.annotation.ElementType;

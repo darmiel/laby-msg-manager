@@ -9,12 +9,6 @@ import net.labymod.utils.ModColor;
 
 public interface SettingsElementWrapper<T, V> {
 
-  Class<?>[] accepted(); // int.class, Integer.class, double.class, Double.class
-
-  T wrap(final Settings settings, final Object defaultValue, final Consumer<V> changed);
-
-  ///
-
   @Nullable
   static IconData getIconData(final Settings settings) {
     final String icon = settings.icon().trim();
@@ -29,5 +23,11 @@ public interface SettingsElementWrapper<T, V> {
   static String formatName(final Settings settings) {
     return ModColor.createColors(settings.value());
   }
+
+  ///
+
+  Class<?>[] accepted(); // int.class, Integer.class, double.class, Double.class
+
+  T wrap(final Settings settings, final Object defaultValue, final Consumer<V> changed);
 
 }

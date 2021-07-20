@@ -12,5 +12,4 @@ public interface JsonProvider<T> {
   ) throws SettingsParseException, IllegalAccessException, NoSuchFieldException;
 
 
-
 }

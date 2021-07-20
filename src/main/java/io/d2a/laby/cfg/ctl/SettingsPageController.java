@@ -25,6 +25,12 @@ import net.labymod.settings.elements.SettingsElement;
 
 public class SettingsPageController<T> implements SettingsPageProvider<T> {
 
+  public static final List<SettingsElementWrapper<? extends SettingsElement, ?>> WRAPPERS
+      = new ArrayList<SettingsElementWrapper<? extends SettingsElement, ?>>() {{
+    add(new BooleanElementWrapper());
+    add(new NumberElementWrapper());
+    add(new StringElementWrapper());
+  }};
   private final ListenerController lstCtl;
   private final Map<String, Object> oldValues;
 
@@ -32,13 +38,6 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
     this.lstCtl = lstCtl;
     this.oldValues = Maps.newConcurrentMap();
   }
-
-  public static final List<SettingsElementWrapper<? extends SettingsElement, ?>> WRAPPERS
-      = new ArrayList<SettingsElementWrapper<? extends SettingsElement, ?>>() {{
-    add(new BooleanElementWrapper());
-    add(new NumberElementWrapper());
-    add(new StringElementWrapper());
-  }};
 
   @Override
   public void fillSettings(
@@ -50,14 +49,11 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
     list.clear();
 
     for (final Field field : obj.getClass().getDeclaredFields()) {
-      System.out.println("++ Field: " + field.getName() +
-          " (" + field.getType().getSimpleName() + ")");
 
       /// Header
       if (field.isAnnotationPresent(Header.class)) {
         final String header = Lang.getFormattedName(field.getAnnotation(Header.class));
         list.add(new HeaderElement(header));
-        System.out.println("  --> Header: " + header);
       }
       // Ignore Dummy
       if (field.getType().isAssignableFrom(Dummy.class)) {

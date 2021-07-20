@@ -19,7 +19,7 @@ public class StringElementWrapper implements SettingsElementWrapper<StringElemen
       final Object defaultValue,
       final Consumer<String> changed
   ) {
-   return new StringElement(
+    return new StringElement(
         SettingsElementWrapper.formatName(settings),
         SettingsElementWrapper.getIconData(settings),
         (String) defaultValue,

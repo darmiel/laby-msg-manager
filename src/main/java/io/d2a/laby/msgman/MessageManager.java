@@ -28,7 +28,8 @@ public class MessageManager extends LabyModAddonAdapter {
 
   @Override
   public void fillSettingsUnsafe(final List<SettingsElement> list) throws Exception {
-    this.cfgCtl.getPageCtl().fillSettings(this.cfgCtl.getObj(), list);
+    this.cfgCtl.getPageCtl().fillSettings(this.config, list);
+    System.out.println("after fill: " + this.config.enabled + ", name: " + this.config.name);
   }
 
   @SubscribeSettings("enable")

@@ -17,7 +17,7 @@ public class SettingsConfig {
   @Header("&3Other")
   private final Dummy dummy2 = null;
 
-  @Settings("&6&lNAME!")
+  @Settings(value = "&6&lNAME!", icon = "PAPER")
   public String name = "Daniel";
 
 }

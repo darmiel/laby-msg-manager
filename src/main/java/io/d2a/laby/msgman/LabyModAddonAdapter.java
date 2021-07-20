@@ -32,7 +32,6 @@ public class LabyModAddonAdapter extends LabyModAddon {
   }
 
 
-
   @Override
   public void loadConfig() {
     try {

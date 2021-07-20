@@ -2,7 +2,6 @@ package io.d2a.laby.cfg;
 
 import io.d2a.laby.cfg.annotations.Header;
 import io.d2a.laby.cfg.annotations.Settings;
-import io.d2a.laby.cfg.annotations.listener.SubscribeSettings;
 import javax.annotation.Nonnull;
 import net.labymod.utils.ModColor;
 

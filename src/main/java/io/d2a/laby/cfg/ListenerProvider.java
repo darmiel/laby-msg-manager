@@ -11,8 +11,8 @@ public interface ListenerProvider {
       @Nullable final Object newValue
   ) throws Exception;
 
-  void registerListeners (
-      @Nonnull final Object ... obj
+  void registerListeners(
+      @Nonnull final Object... obj
   );
 
 }

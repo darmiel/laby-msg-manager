@@ -9,7 +9,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SubscribeSettings {
 
-  public enum Order {
+  String[] value();
+
+  Order priority() default Order.NORMAL;
+
+  enum Order {
     EARLY(0),
     NORMAL(10),
     LATE(100);
@@ -20,9 +24,5 @@ public @interface SubscribeSettings {
       this.weight = weight;
     }
   }
-
-  String[] value();
-
-  Order priority() default Order.NORMAL;
 
 }
