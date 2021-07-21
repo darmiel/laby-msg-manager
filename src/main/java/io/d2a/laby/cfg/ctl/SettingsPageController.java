@@ -25,18 +25,22 @@ import net.labymod.settings.elements.SettingsElement;
 
 public class SettingsPageController<T> implements SettingsPageProvider<T> {
 
-  public static final List<SettingsElementWrapper<? extends SettingsElement, ?>> WRAPPERS
+  public static final List<SettingsElementWrapper<? extends SettingsElement, ?>> DEFAULT_WRAPPERS
       = new ArrayList<SettingsElementWrapper<? extends SettingsElement, ?>>() {{
     add(new BooleanElementWrapper());
     add(new NumberElementWrapper());
     add(new StringElementWrapper());
   }};
+
   private final ListenerController lstCtl;
   private final Map<String, Object> oldValues;
+
+  private List<SettingsElementWrapper<? extends SettingsElement, ?>> wrappers;
 
   public SettingsPageController(final ListenerController lstCtl) {
     this.lstCtl = lstCtl;
     this.oldValues = Maps.newConcurrentMap();
+    this.wrappers = new ArrayList<>(SettingsPageController.DEFAULT_WRAPPERS);
   }
 
   @Override
@@ -121,7 +125,7 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
       final Settings settings,
       final Field field
   ) {
-    for (final SettingsElementWrapper<? extends SettingsElement, ?> wrapper : WRAPPERS) {
+    for (final SettingsElementWrapper<? extends SettingsElement, ?> wrapper : this.wrappers) {
       if (settings.wrapper() != DummyWrapper.class && wrapper.getClass() == settings.wrapper()) {
         return wrapper;
       }
@@ -132,6 +136,13 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
       }
     }
     return null;
+  }
+
+  public SettingsPageController<T> registerWrapper(
+      @Nonnull final SettingsElementWrapper<? extends SettingsElement, ?> wrapper
+  ) {
+    this.wrappers.add(wrapper);
+    return this;
   }
 
 }
