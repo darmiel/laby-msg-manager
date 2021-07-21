@@ -7,6 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import net.labymod.settings.elements.SettingsElement;
+import net.labymod.utils.Material;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,7 +22,7 @@ public @interface Settings {
    */
   String value() default "";
 
-  String icon() default "";
+  Material icon() default Material.AIR;
 
   Class<? extends SettingsElementWrapper<? extends SettingsElement, ?>> wrapper() default DummyWrapper.class;
 

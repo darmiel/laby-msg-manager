@@ -48,12 +48,18 @@ public class SettingsPageController<T> implements SettingsPageProvider<T> {
     // clear previous elements
     list.clear();
 
+    String lastHeader = "";
+
     for (final Field field : obj.getClass().getDeclaredFields()) {
 
       /// Header
       if (field.isAnnotationPresent(Header.class)) {
-        final String header = Lang.getFormattedName(field.getAnnotation(Header.class));
-        list.add(new HeaderElement(header));
+        final Header header = field.getAnnotation(Header.class);
+        final String headerValue = Lang.getFormattedName(header);
+        if (header.force() || !lastHeader.equals(headerValue)) {
+          list.add(new HeaderElement(headerValue));
+        }
+        lastHeader = headerValue;
       }
       // Ignore Dummy
       if (field.getType().isAssignableFrom(Dummy.class)) {

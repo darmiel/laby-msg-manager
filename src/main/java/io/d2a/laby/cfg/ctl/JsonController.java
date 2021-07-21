@@ -39,7 +39,6 @@ public class JsonController<T> implements JsonProvider<T> {
       if (settings.value().trim().isEmpty()) {
         jsonKey = Lang.toPascalCase(field.getName());
       } else {
-        System.out.println("Json Key: " + settings.value() + " == " + Lang.getJsonKey(settings));
         jsonKey = Lang.getJsonKey(settings);
       }
       if (jsonKey.trim().isEmpty()) {

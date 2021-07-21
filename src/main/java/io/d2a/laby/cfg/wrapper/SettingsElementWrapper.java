@@ -11,13 +11,10 @@ public interface SettingsElementWrapper<T, V> {
 
   @Nullable
   static IconData getIconData(final Settings settings) {
-    final String icon = settings.icon().trim();
-    for (final Material mat : Material.values()) {
-      if (mat.name().equalsIgnoreCase(icon)) {
-        return new IconData(mat);
-      }
+    if (settings.icon() == Material.AIR) {
+      return null;
     }
-    return null;
+    return new IconData(settings.icon());
   }
 
   static String formatName(final Settings settings) {
