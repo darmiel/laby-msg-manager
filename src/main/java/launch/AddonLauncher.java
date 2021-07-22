@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +16,17 @@ public class AddonLauncher {
     Map<String, String> arguments = new HashMap<>();
     hackNatives();
     arguments.put("version", "LabyMod-Addon-Environment");
-    arguments.put("assetIndex", System.getenv("assetIndex"));
+    // arguments.put("assetIndex", System.getenv("assetIndex"));
     arguments.put("assetsDir", System.getenv().getOrDefault("assetDirectory", "assets"));
     arguments.put("accessToken", "LabyMod");
     arguments.put("userProperties", "{}");
-    arguments.put("tweak", System.getenv("tweakClass"));
+    // arguments.put("tweak", System.getenv("tweakClass"));
     List<String> argumentList = new ArrayList<>();
     arguments.forEach((k, v) -> {
       argumentList.add("--" + k);
       argumentList.add(v);
     });
+    System.out.println("arguments: " +argumentList.toString());
     Launch.main(argumentList.toArray(new String[0]));
   }
 
