@@ -5,7 +5,9 @@
       "type": "private",
       "format": [
         {
-          "direction": "IN",
+          "direction": [
+            "IN"
+          ],
           "meta": {
             "sender": "{Sender}",
             "message": "{Message}"
@@ -22,7 +24,9 @@
           ]
         },
         {
-          "direction": "OUT",
+          "direction": [
+            "OUT"
+          ],
           "meta": {
             "receiver": "{Receiver}",
             "message": "{Message}"
@@ -33,32 +37,6 @@
               "Du -> ",
               "{Receiver}",
               "] ",
-              "{Message}"
-            ]
-          ]
-        }
-      ]
-    },
-    {
-      "type": "c:plot",
-      "format": [
-        {
-          "direction": [
-            "IN",
-            "OUT"
-          ],
-          "meta": {
-            "sender": "{Player}",
-            "message": "{Message}",
-            "c:plotid": "{PlotID}"
-          },
-          "match": [
-            [
-              "[",
-              "{PlotID}",
-              "] ",
-              "{Player}",
-              ": ",
               "{Message}"
             ]
           ]
