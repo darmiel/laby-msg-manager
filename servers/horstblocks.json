@@ -1,0 +1,69 @@
+{
+  "name": "HorstBlocks",
+  "rooms": [
+    {
+      "type": "private",
+      "format": [
+        {
+          "direction": "IN",
+          "meta": {
+            "sender": "{Sender}",
+            "message": "{Message}"
+          },
+          "match": [
+            [
+              "[",
+              "{Sender}",
+              " -> ",
+              "Du",
+              "] ",
+              "{Message}"
+            ]
+          ]
+        },
+        {
+          "direction": "OUT",
+          "meta": {
+            "receiver": "{Receiver}",
+            "message": "{Message}"
+          },
+          "match": [
+            [
+              "[",
+              "Du -> ",
+              "{Receiver}",
+              "] ",
+              "{Message}"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "type": "c:plot",
+      "format": [
+        {
+          "direction": [
+            "IN",
+            "OUT"
+          ],
+          "meta": {
+            "sender": "{Player}",
+            "message": "{Message}",
+            "c:plotid": "{PlotID}"
+          },
+          "match": [
+            [
+              "[",
+              "{PlotID}",
+              "] ",
+              "{Player}",
+              ": ",
+              "{Message}"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
