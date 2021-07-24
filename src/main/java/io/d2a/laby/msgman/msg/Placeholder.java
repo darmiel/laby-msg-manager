@@ -3,6 +3,7 @@ package io.d2a.laby.msgman.msg;
 import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
+import net.labymod.main.LabyMod;
 
 public class Placeholder {
 
@@ -16,7 +17,7 @@ public class Placeholder {
     String value;
 
     for (int i = 0; i < matches.size(); i++) {
-      final String match = matches.get(i);
+      final String match = replaceMatchPlaceholders(matches.get(i));
 
       // Check if current "matcher" is a placeholder
       if (!"".equals(ph = getPlaceholder(match))) {
@@ -60,7 +61,7 @@ public class Placeholder {
   }
 
   ///
-  
+
   private static String getPlaceholder(final String input) {
     if (input.startsWith("{{") && input.endsWith("}}")) {
       return input.substring(2, input.length() - 2).trim();
@@ -78,6 +79,14 @@ public class Placeholder {
       builder.append(m);
     }
     return builder.toString();
+  }
+
+  ///
+
+  private static String replaceMatchPlaceholders(final String match) {
+    return match
+        .replace("%player%", LabyMod.getInstance().getPlayerName())
+        ;
   }
 
 }

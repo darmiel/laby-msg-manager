@@ -1,12 +1,16 @@
 {
   "name": "HorstBlocks",
+  "address": [
+    "horstblocks.de",
+    "horstblocks.net"
+  ],
   "rooms": [
     {
       "type": "private",
       "format": [
         {
           "direction": [
-            "IN"
+            "INBOUND"
           ],
           "meta": {
             "sender": "{Sender}",
@@ -25,7 +29,7 @@
         },
         {
           "direction": [
-            "OUT"
+            "OUTBOUND"
           ],
           "meta": {
             "receiver": "{Receiver}",
