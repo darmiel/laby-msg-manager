@@ -12,18 +12,14 @@
           "direction": [
             "INBOUND"
           ],
-          "meta": {
-            "sender": "{Sender}",
-            "message": "{Message}"
-          },
           "match": [
             [
               "[",
-              "{Sender}",
+              "{{ Sender }}",
               " -> ",
               "Du",
               "] ",
-              "{Message}"
+              "{{ Message }}"
             ]
           ]
         },
@@ -31,17 +27,13 @@
           "direction": [
             "OUTBOUND"
           ],
-          "meta": {
-            "receiver": "{Receiver}",
-            "message": "{Message}"
-          },
           "match": [
             [
               "[",
               "Du -> ",
-              "{Receiver}",
+              "{{ Receiver }}",
               "] ",
-              "{Message}"
+              "{{ Message }}"
             ]
           ]
         }

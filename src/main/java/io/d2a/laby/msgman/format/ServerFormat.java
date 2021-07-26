@@ -6,9 +6,7 @@ import io.d2a.laby.msgman.msg.Direction;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import net.labymod.utils.ServerData;
 
@@ -46,13 +44,13 @@ public class ServerFormat {
 
   ///
 
-  public static ServerFormat parse (final File file) throws IOException {
+  public static ServerFormat parse(final File file) throws IOException {
     try (final FileReader reader = new FileReader(file)) {
       return gson.fromJson(reader, ServerFormat.class);
     }
   }
 
-  public static Optional<ServerFormat> parseUnsafe (final File file) {
+  public static Optional<ServerFormat> parseUnsafe(final File file) {
     try {
       return Optional.of(parse(file));
     } catch (Exception exception) {
@@ -66,9 +64,9 @@ public class ServerFormat {
   public static class Room {
 
     public final String type;
-    public final Format[] format;
+    public final List<Format> format;
 
-    public Room(final String type, final Format[] format) {
+    public Room(final String type, final List<Format> format) {
       this.type = type;
       this.format = format;
     }
@@ -77,31 +75,24 @@ public class ServerFormat {
     public String toString() {
       return "Room{" +
           "type='" + type + '\'' +
-          ", format=" + Arrays.toString(format) +
+          ", format=" + format +
           '}';
     }
 
     public static class Format {
 
-      public final Direction[] direction;
-      public final Map<String, String> meta;
+      public final List<Direction> direction;
       public final List<List<String>> match;
 
-      public Format(
-          final Direction[] direction,
-          final Map<String, String> meta,
-          final List<List<String>> match
-      ) {
+      public Format(final List<Direction> direction, final List<List<String>> match) {
         this.direction = direction;
-        this.meta = meta;
         this.match = match;
       }
 
       @Override
       public String toString() {
         return "Format{" +
-            "direction=" + Arrays.toString(direction) +
-            ", meta=" + meta +
+            "direction=" + direction +
             ", match=" + match +
             '}';
       }

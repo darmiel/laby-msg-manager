@@ -8,13 +8,19 @@ import io.d2a.laby.cfg.ctl.ConfigController;
 import io.d2a.laby.msgman.cfg.SettingsConfig;
 import io.d2a.laby.msgman.format.ServerFormat;
 import io.d2a.laby.msgman.format.ServerFormat.Room;
+import io.d2a.laby.msgman.format.ServerFormat.Room.Format;
+import io.d2a.laby.msgman.msg.Direction;
+import io.d2a.laby.msgman.msg.Placeholder;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import net.labymod.api.event.Subscribe;
+import net.labymod.api.event.events.client.chat.MessageReceiveEvent;
 import net.labymod.api.event.events.network.server.LoginServerEvent;
 import net.labymod.settings.elements.SettingsElement;
+import net.labymod.utils.ModColor;
 
 public class MessageManager extends LabyModAddonAdapter {
 
@@ -37,6 +43,7 @@ public class MessageManager extends LabyModAddonAdapter {
     System.out.println("It works! (or does it?)");
 
     // load all servers in server dir
+    // TODO: (Prod) add to resources/
     {
       final File file = new File("servers");
       for (final File sub : Objects.requireNonNull(file.listFiles())) {
@@ -46,7 +53,7 @@ public class MessageManager extends LabyModAddonAdapter {
         if (!sub.getName().endsWith(".json")) {
           continue;
         }
-        final Optional<ServerFormat> sf = ServerFormat.parseUnsafe(file);
+        final Optional<ServerFormat> sf = ServerFormat.parseUnsafe(sub);
         sf.ifPresent(this.servers::add);
         System.out.println("Added server: " + sf);
       }
@@ -83,8 +90,45 @@ public class MessageManager extends LabyModAddonAdapter {
     }
     this.currentRooms.clear();
     this.currentRooms.addAll(fmt.get().rooms);
+
     System.out.println("msgman :: using server: " + fmt.get().name +
         " (" + fmt.get().address + ")");
+    System.out.println("msgman :: rooms: " + this.currentRooms.size());
+  }
+
+  @Subscribe
+  public void onMessage(final MessageReceiveEvent event) {
+    final String clean = ModColor.removeColor(event.getComponent().getString());
+    for (final Room room : this.currentRooms) {
+      for (final Format format : room.format) {
+        for (final List<String> match : format.match) {
+          final Map<String, String> map = Placeholder.parse(match, clean);
+          if (map == null) {
+            continue;
+          }
+
+          // MATCHES! Use this!
+          for (final Direction dir : format.direction) {
+            this.processMessage(dir, clean, map, room, format, match);
+          }
+
+          break;
+        }
+      }
+    }
+  }
+
+  /// ...
+
+  private void processMessage(
+      final Direction direction,
+      final String clean,
+      final Map<String, String> placeholders,
+      final Room room,
+      final Format format,
+      final List<String> match
+  ) {
+    // TODO: Implement me
   }
 
 }

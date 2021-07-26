@@ -3,11 +3,10 @@ package io.d2a.laby.msgman.msg;
 import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
-import net.labymod.main.LabyMod;
 
 public class Placeholder {
 
-  private static Map<String, String> parse(final List<String> matches, final String string) {
+  public static Map<String, String> parse(final List<String> matches, final String string) {
     // result
     String input = string;
 
@@ -85,7 +84,7 @@ public class Placeholder {
 
   private static String replaceMatchPlaceholders(final String match) {
     return match
-        .replace("%player%", LabyMod.getInstance().getPlayerName())
+//        .replace("%player%", LabyMod.getInstance().getPlayerName())
         ;
   }
 
