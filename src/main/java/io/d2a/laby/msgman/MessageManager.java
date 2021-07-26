@@ -10,7 +10,11 @@ import io.d2a.laby.msgman.format.ServerFormat;
 import io.d2a.laby.msgman.format.ServerFormat.Room;
 import io.d2a.laby.msgman.format.ServerFormat.Room.Format;
 import io.d2a.laby.msgman.msg.Direction;
+import io.d2a.laby.msgman.msg.InPlayerMessage;
+import io.d2a.laby.msgman.msg.OutPlayerMessage;
 import io.d2a.laby.msgman.msg.Placeholder;
+import io.d2a.laby.msgman.msg.Placeholder.Keyword;
+import io.d2a.laby.msgman.msg.PlayerMessage;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -129,6 +133,18 @@ public class MessageManager extends LabyModAddonAdapter {
       final List<String> match
   ) {
     // TODO: Implement me
+    PlayerMessage msg;
+    if (direction == Direction.INBOUND) {
+      msg = new InPlayerMessage(
+          placeholders.getOrDefault(Keyword.SENDER.toString(), "Unknown Sender"),
+          placeholders.getOrDefault(Keyword.MESSAGE.toString(), "n/a")
+      );
+    } else {
+      msg = new OutPlayerMessage(
+          placeholders.getOrDefault(Keyword.RECEIVER.toString(), "Unknown Receiver"),
+          placeholders.getOrDefault(Keyword.MESSAGE.toString(), "n/a")
+      );
+    }
   }
 
 }

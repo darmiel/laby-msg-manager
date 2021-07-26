@@ -6,6 +6,23 @@ import java.util.Map;
 
 public class Placeholder {
 
+  public enum Keyword {
+    SENDER("Sender"),
+    RECEIVER("Receiver"),
+    MESSAGE("Message");
+
+    String ph;
+
+    Keyword(String ph) {
+      this.ph = ph;
+    }
+
+    @Override
+    public String toString() {
+      return this.ph;
+    }
+  }
+
   public static Map<String, String> parse(final List<String> matches, final String string) {
     // result
     String input = string;
